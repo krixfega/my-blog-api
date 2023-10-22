@@ -26,10 +26,12 @@ db.once('open', () => {
 const authRoutes = require('./routes/authRoutes');
 const userRoutes = require('./routes/userRoutes');
 const blogRoutes = require('./routes/blogRoutes');
+const adminRoutes = require('./routes/adminRoutes');
 
 app.use('/auth', authRoutes);
 app.use('/users', userRoutes);
 app.use('/blog', blogRoutes);
+app.use('/admin', adminRoutes);
 
 // Start the server
 const PORT = process.env.PORT || 3004;
