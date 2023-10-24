@@ -4,6 +4,9 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const helmet = require('helmet');
 const dotenv = require('dotenv');
+const swaggerUi = require('swagger-ui-express');
+const swaggerSpec = require('./src/swagger-config.js'); // Import your Swagger configuration
+
 
 dotenv.config();
 
@@ -22,10 +25,13 @@ db.once('open', () => {
   console.log('Connected to the MongoDB database.');
 });
 
+// Serve Swagger documentation
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
 // Routes setup
-const userRoutes = require('./routes/userRoutes');
-const blogRoutes = require('./routes/blogRoutes');
-const adminRoutes = require('./routes/adminRoutes');
+const userRoutes = require('./src/routes/userRoutes');
+const blogRoutes = require('./src/routes/blogRoutes');
+const adminRoutes = require('./src/routes/adminRoutes');
 
 
 app.use('/users', userRoutes);

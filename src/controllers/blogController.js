@@ -73,7 +73,7 @@ exports.updateBlogPost = upload.array('images', 5), async (req, res) => {
     const imagePaths = req.files.map((file) => file.path);
 
     const { title, content } = req.body;
-    const postId = req.params.id;
+    const postId = req.params.postId;
 
     const blogPost = await BlogPost.findByIdAndUpdate(
       postId,
@@ -98,6 +98,63 @@ exports.updateBlogPost = upload.array('images', 5), async (req, res) => {
     }
 
     return res.status(200).json({ message: 'Blog post updated successfully' });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
+// Get all blog posts
+exports.getAllBlogPosts = async (req, res) => {
+  try {
+    const blogPosts = await BlogPost.find().populate('author', 'username');
+
+    return res.status(200).json(blogPosts);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
+// Delete a blog post
+exports.deleteBlogPost = async (req, res) => {
+  try {
+    const postId = req.params.postId;
+
+    const deletedPost = await BlogPost.findByIdAndRemove(postId);
+
+    if (!deletedPost) {
+      return res.status(404).json({ message: 'Blog post not found' });
+    }
+
+    // Remove associated images from the uploads folder
+    if (deletedPost.images && deletedPost.images.length > 0) {
+      for (const imageToDelete of deletedPost.images) {
+        const imagePath = path.join(__dirname, '..', 'uploads', imageToDelete);
+        fs.unlinkSync(imagePath);
+      }
+    }
+
+    return res.status(200).json({ message: 'Blog post deleted successfully' });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
+// Get a blog post by its ID
+exports.getBlogPostById = async (req, res) => {
+  try {
+    const postId = req.params.postId;
+
+    // Find the blog post by its ID
+    const blogPost = await BlogPost.findById(postId).populate('author', 'username');
+
+    if (!blogPost) {
+      return res.status(404).json({ message: 'Blog post not found' });
+    }
+
+    return res.status(200).json(blogPost);
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: 'Internal server error' });
