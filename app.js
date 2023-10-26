@@ -5,7 +5,7 @@ const cors = require('cors');
 const helmet = require('helmet');
 const dotenv = require('dotenv');
 const swaggerUi = require('swagger-ui-express');
-const swaggerSpec = require('./src/swagger-config.js'); // Import your Swagger configuration
+const swaggerSpec = require('./swagger-config.js'); // Import your Swagger configuration
 
 
 dotenv.config();
