@@ -4,7 +4,7 @@
   "description": "My personal blog backend api",
   "main": "app.js",
   "scripts": {
-    "test": "mocha 'tests/integration/auth.api.test.js' 'tests/integration/user.api.test.js' 'tests/integration/blogpost.api.test.js' ",
+    "test": "mocha --recursive test/*.js",
     "test:watch": "npm test -- --watch",
     "test:coverage": "nyc npm test"
   },
@@ -33,6 +33,7 @@
     "cypress": "^13.3.2",
     "mocha": "^10.2.0",
     "mongodb-memory-server": "^9.0.1",
-    "nodemon": "^3.0.1"
+    "nodemon": "^3.0.1",
+    "supertest": "^6.3.3"
   }
 }
