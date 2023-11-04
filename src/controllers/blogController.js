@@ -160,3 +160,29 @@ exports.getBlogPostById = async (req, res) => {
     return res.status(500).json({ message: 'Internal server error' });
   }
 };
+
+// Update a specific blog post by ID
+exports.updateBlogPost = async (req, res) => {
+  const postId = req.params.postId;
+  const { content, images, category } = req.body; 
+
+  try {
+    const updatedPost = await BlogPost.findByIdAndUpdate(
+      postId,
+      {
+        content,
+        images,
+        category, 
+      },
+      { new: true }
+    );
+
+    if (!updatedPost) {
+      return res.status(404).json({ error: 'Blog post not found.' });
+    }
+
+    res.status(200).json(updatedPost);
+  } catch (error) {
+    res.status(400).json({ error: 'Blog post update failed due to validation errors.' });
+  }
+};

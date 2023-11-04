@@ -45,6 +45,23 @@ router.get('/posts', blogController.getAllBlogPosts);
  *           type: string
  *         required: true
  *         description: The ID of the blog post to retrieve.
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               content:
+ *                 type: string
+ *                 description: The content of the blog post.
+ *               images:
+ *                 type: array
+ *                 items:
+ *                   type: string
+ *                 description: An array of image URLs.
+ *               category:
+ *                 type: string
+ *                 description: The category of the blog post.
  *     responses:
  *       200:
  *         description: Blog post retrieved successfully.
