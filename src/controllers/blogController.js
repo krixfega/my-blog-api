@@ -42,12 +42,17 @@ exports.createBlogPost = upload.array('images', 5), async (req, res) => {
     // Handle uploaded images
     const imagePaths = req.files.map((file) => file.path);
 
-    const { title, content } = req.body;
+    const { title, content, category, scheduledPublishing, permalink, postStatus, visibility } = req.body;
 
     // Create a new blog post
     const blogPost = new BlogPost({
       title,
       content,
+      category,
+      scheduledPublishing,
+      permalink,
+      postStatus,
+      visibility,
       author: req.user.userId,
       images: imagePaths,
     });
@@ -72,7 +77,7 @@ exports.updateBlogPost = upload.array('images', 5), async (req, res) => {
     // Handle uploaded images
     const imagePaths = req.files.map((file) => file.path);
 
-    const { title, content } = req.body;
+    const { title, content, category, scheduledPublishing, permalink, postStatus, visibility } = req.body;
     const postId = req.params.postId;
 
     const blogPost = await BlogPost.findByIdAndUpdate(
@@ -80,6 +85,11 @@ exports.updateBlogPost = upload.array('images', 5), async (req, res) => {
       {
         title,
         content,
+        category,
+        scheduledPublishing,
+        permalink,
+        postStatus,
+        visibility,
         images: imagePaths,
       },
       { new: true }
@@ -170,9 +180,14 @@ exports.updateBlogPost = async (req, res) => {
     const updatedPost = await BlogPost.findByIdAndUpdate(
       postId,
       {
+        title,
         content,
         images,
-        category, 
+        category,
+        scheduledPublishing,
+        permalink,
+        postStatus,
+        visibility,
       },
       { new: true }
     );
