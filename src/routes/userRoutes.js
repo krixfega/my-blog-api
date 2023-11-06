@@ -3,6 +3,7 @@ const router = express.Router();
 const authMiddleware = require('../middleware/authMiddleware');
 const userController = require('../controllers/userController');
 
+
 /**
  * @openapi
  * /profile:
@@ -15,8 +16,9 @@ const userController = require('../controllers/userController');
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/models/User' 
+ *               $ref: '#models/User' 
  */
+
 
 // Protected route that requires authentication
 router.get('/profile', authMiddleware.verifyToken, userController.profile);
@@ -33,7 +35,7 @@ router.get('/profile', authMiddleware.verifyToken, userController.profile);
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#models/User' // Reference to the User schema
+ *               $ref: '#models/User' 
  *       400:
  *         description: Invalid request data or validation errors.
  *       409:
